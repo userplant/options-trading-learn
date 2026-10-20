@@ -70,7 +70,7 @@ export function PayoffChart({ data, spot, breakevens = [], showNow = true, nowLa
           <Tooltip
             {...tooltipStyle(palette)}
             labelFormatter={(v) => `ราคาหุ้น ${fmtUsd(Number(v))}`}
-            formatter={(v: number, name: string) => [fmtSignedUsd(v), name]}
+            formatter={(v, name) => [fmtSignedUsd(Number(v)), String(name)]}
           />
           <ReferenceLine y={0} stroke={palette.axis} strokeWidth={1} />
           <ReferenceLine

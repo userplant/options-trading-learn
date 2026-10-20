@@ -139,7 +139,7 @@ export function MoneynessExplorer() {
             <CartesianGrid stroke={palette.grid} strokeDasharray="3 3" horizontal={false} />
             <XAxis type="number" tick={{ fill: palette.axis, fontSize: 11 }} stroke={palette.grid} tickFormatter={(v) => `$${v}`} domain={[0, 'auto']} />
             <YAxis type="category" dataKey="name" tick={{ fill: palette.axis, fontSize: 12 }} stroke={palette.grid} width={70} />
-            <Tooltip {...tooltipStyle(palette)} formatter={(v: number, n: string) => [fmtUsd(v), n]} cursor={{ fill: palette.grid, opacity: 0.4 }} />
+            <Tooltip {...tooltipStyle(palette)} formatter={(v, n) => [fmtUsd(Number(v)), String(n)]} cursor={{ fill: palette.grid, opacity: 0.4 }} />
             <Legend wrapperStyle={{ fontSize: 12 }} />
             <Bar dataKey="intrinsic" name="Intrinsic Value" stackId="a" fill={palette.series[0]} isAnimationActive={false} />
             <Bar dataKey="time" name="Time Value" stackId="a" fill={palette.series[1]} radius={[0, 6, 6, 0]} isAnimationActive={false} />
@@ -195,7 +195,7 @@ export function TimeDecayChart() {
               label={{ value: 'วันถึงหมดอายุ (เวลาเดินจากซ้ายไปขวา)', position: 'insideBottom', offset: -10, fill: palette.axis, fontSize: 12 }}
             />
             <YAxis tick={{ fill: palette.axis, fontSize: 11 }} stroke={palette.grid} width={44} tickFormatter={(v) => `$${v}`} />
-            <Tooltip {...tooltipStyle(palette)} labelFormatter={(v) => `เหลือ ${v} วัน`} formatter={(v: number, n: string) => [fmtUsd(v), n]} />
+            <Tooltip {...tooltipStyle(palette)} labelFormatter={(v) => `เหลือ ${v} วัน`} formatter={(v, n) => [fmtUsd(Number(v)), String(n)]} />
             <Legend verticalAlign="top" wrapperStyle={{ fontSize: 12 }} />
             <Line dataKey="atm" name="ATM Call: Time Value" stroke={palette.series[0]} strokeWidth={3} dot={false} isAnimationActive={false} />
             <Line dataKey="otm" name={`OTM Call ($${K + offset})`} stroke={palette.series[2]} strokeWidth={2} dot={false} isAnimationActive={false} />

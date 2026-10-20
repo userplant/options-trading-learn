@@ -194,7 +194,7 @@ export function BacktestPlayground({ initialStrategy = 'ma-cross', strategies, i
                 <CartesianGrid stroke={palette.grid} strokeDasharray="3 3" />
                 <XAxis dataKey="i" tick={{ fill: palette.axis, fontSize: 11 }} stroke={palette.grid} minTickGap={40} />
                 <YAxis tick={{ fill: palette.axis, fontSize: 11 }} stroke={palette.grid} width={52} tickFormatter={(v) => `$${(v / 1000).toFixed(1)}k`} domain={['auto', 'auto']} />
-                <Tooltip {...tooltipStyle(palette)} labelFormatter={(v) => `แท่งที่ ${v}`} formatter={(v: number, n: string) => [fmtUsd(v, 0), n]} />
+                <Tooltip {...tooltipStyle(palette)} labelFormatter={(v) => `แท่งที่ ${v}`} formatter={(v, n) => [fmtUsd(Number(v), 0), String(n)]} />
                 <Legend wrapperStyle={{ fontSize: 12 }} />
                 <ReferenceLine y={opts.startEquity} stroke={palette.axis} strokeDasharray="4 4" />
                 <Line dataKey="buyHold" name="Buy & Hold" stroke={palette.muted} strokeWidth={1.5} dot={false} isAnimationActive={false} />
@@ -314,7 +314,7 @@ function MonteCarloPanel({ trades, startEquity, actualDd }: { trades: ReturnType
               <CartesianGrid stroke={palette.grid} strokeDasharray="3 3" vertical={false} />
               <XAxis dataKey="label" tick={{ fill: palette.axis, fontSize: 9 }} stroke={palette.grid} interval={1} />
               <YAxis tick={{ fill: palette.axis, fontSize: 11 }} stroke={palette.grid} width={32} />
-              <Tooltip {...tooltipStyle(palette)} formatter={(v: number) => [`${v} รอบ`, 'จำนวน']} labelFormatter={(l) => `Max DD ${l}`} cursor={{ fill: palette.grid, opacity: 0.4 }} />
+              <Tooltip {...tooltipStyle(palette)} formatter={(v) => [`${Number(v)} รอบ`, 'จำนวน']} labelFormatter={(l) => `Max DD ${l}`} cursor={{ fill: palette.grid, opacity: 0.4 }} />
               <Bar dataKey="count" fill={palette.loss} fillOpacity={0.6} radius={[4, 4, 0, 0]} isAnimationActive={false} />
             </BarChart>
           </ResponsiveContainer>

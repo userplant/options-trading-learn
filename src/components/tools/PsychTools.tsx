@@ -319,7 +319,7 @@ export function TradingJournal() {
                 <CartesianGrid stroke={palette.grid} strokeDasharray="3 3" />
                 <XAxis dataKey="n" tick={{ fill: palette.axis, fontSize: 11 }} stroke={palette.grid} />
                 <YAxis tick={{ fill: palette.axis, fontSize: 11 }} stroke={palette.grid} width={40} tickFormatter={(v) => `${v}R`} />
-                <Tooltip {...tooltipStyle(palette)} labelFormatter={(v) => `หลังไม้ที่ ${v}`} formatter={(v: number) => [`${fmtNum(v, 1)}R`, 'สะสม']} />
+                <Tooltip {...tooltipStyle(palette)} labelFormatter={(v) => `หลังไม้ที่ ${v}`} formatter={(v) => [`${fmtNum(Number(v), 1)}R`, 'สะสม']} />
                 <ReferenceLine y={0} stroke={palette.axis} />
                 <Line dataKey="r" stroke={palette.accent} strokeWidth={2} dot={{ r: 2 }} isAnimationActive={false} />
               </LineChart>

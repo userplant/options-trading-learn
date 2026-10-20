@@ -108,7 +108,7 @@ export function GreeksVisualizer({ initialGreek = 'delta' as GreekKey }: { initi
             <Tooltip
               {...tooltipStyle(palette)}
               labelFormatter={(v) => `ราคาหุ้น ${fmtUsd(Number(v))}`}
-              formatter={(v: number, name: string) => [fmtNum(v, info.digits), name]}
+              formatter={(v, name) => [fmtNum(Number(v), info.digits), String(name)]}
             />
             <Legend wrapperStyle={{ fontSize: 12 }} />
             <ReferenceLine x={K} stroke={palette.muted} strokeDasharray="3 3" label={{ value: 'K', fill: palette.axis, fontSize: 11, position: 'top' }} />

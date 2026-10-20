@@ -197,7 +197,7 @@ export function ExpectancySimulator() {
             <CartesianGrid stroke={palette.grid} strokeDasharray="3 3" />
             <XAxis dataKey="trade" tick={{ fill: palette.axis, fontSize: 11 }} stroke={palette.grid} label={{ value: 'จำนวนไม้', position: 'insideBottom', offset: -10, fill: palette.axis, fontSize: 12 }} />
             <YAxis tick={{ fill: palette.axis, fontSize: 11 }} stroke={palette.grid} width={52} tickFormatter={(v) => `$${(v / 1000).toFixed(0)}k`} />
-            <Tooltip {...tooltipStyle(palette)} labelFormatter={(v) => `ไม้ที่ ${v}`} formatter={(v: number, n: string) => [fmtUsd(v, 0), n]} />
+            <Tooltip {...tooltipStyle(palette)} labelFormatter={(v) => `ไม้ที่ ${v}`} formatter={(v, n) => [fmtUsd(Number(v), 0), String(n)]} />
             <ReferenceLine y={10000} stroke={palette.axis} strokeDasharray="4 4" />
             {curves.map((_, k) => (
               <Line key={k} dataKey={`r${k}`} name={`รอบที่ ${k + 1}`} stroke={palette.series[k]} strokeWidth={1.75} dot={false} isAnimationActive={false} />
@@ -245,7 +245,7 @@ export function DrawdownRecovery() {
               <CartesianGrid stroke={palette.grid} strokeDasharray="3 3" />
               <XAxis dataKey="loss" tick={{ fill: palette.axis, fontSize: 11 }} stroke={palette.grid} tickFormatter={(v) => `-${v}%`} label={{ value: 'ขาดทุน', position: 'insideBottom', offset: -10, fill: palette.axis, fontSize: 12 }} />
               <YAxis tick={{ fill: palette.axis, fontSize: 11 }} stroke={palette.grid} width={48} domain={[0, 400]} allowDataOverflow tickFormatter={(v) => `${v}%`} />
-              <Tooltip {...tooltipStyle(palette)} labelFormatter={(v) => `ขาดทุน ${v}%`} formatter={(v: number) => [`+${fmtPct(v, 0)}`, 'ต้องกำไร']} />
+              <Tooltip {...tooltipStyle(palette)} labelFormatter={(v) => `ขาดทุน ${v}%`} formatter={(v) => [`+${fmtPct(Number(v), 0)}`, 'ต้องกำไร']} />
               <Area dataKey="gain" stroke={palette.loss} fill={palette.loss} fillOpacity={0.15} strokeWidth={2} isAnimationActive={false} />
               <ReferenceDot x={loss} y={Math.min(gain, 400)} r={6} fill={palette.loss} stroke={palette.surface} strokeWidth={2} />
             </AreaChart>
