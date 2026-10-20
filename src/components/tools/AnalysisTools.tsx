@@ -4,6 +4,7 @@ import type { IndicatorPaneDef, OverlayLine } from '../../lib/backtest';
 import { fmtNum, fmtPct, fmtUsd } from '../../lib/format';
 import { bollinger, ema, findPivots, macd, rsi, sma, type Candle } from '../../lib/indicators';
 import { candlesFromKeypoints, generateCandles, REGIME_LABEL, type Regime } from '../../lib/marketData';
+import { spreadLabels } from '../../lib/labelLayout';
 import { seededRandom } from '../../lib/risk';
 import { useTheme } from '../../lib/theme';
 import { CandleChart, type ChartHLine, type ChartMarker, type ChartSegment } from '../charts/CandleChart';
@@ -49,34 +50,52 @@ export function CandleAnatomy() {
   const up = c >= o;
   const color = up ? palette.profit : palette.loss;
   const Y = (v: number) => 20 + ((112 - v) / 22) * 260;
+  const bodyTop = Math.max(o, c);
+  const bodyBottom = Math.min(o, c);
+
+  // ป้ายราคาด้านขวา: รวมป้ายที่ราคาเท่ากัน แล้วกระจายไม่ให้ซ้อน
+  const priceLabels: { v: number; names: string[] }[] = [];
+  for (const [name, v] of [['High', hi], ['Open', o], ['Close', c], ['Low', lo]] as const) {
+    const same = priceLabels.find((p) => Math.abs(p.v - v) < 0.005);
+    if (same) same.names.push(name);
+    else priceLabels.push({ v, names: [name] });
+  }
+  const priceYs = spreadLabels(priceLabels.map((p) => Y(p.v)), 15, 12, 292);
+
+  // ป้ายส่วนประกอบด้านซ้าย: แสดงเฉพาะส่วนที่มีความยาวจริง
+  const regions = [
+    { label: 'ไส้บน', from: hi, to: bodyTop },
+    { label: 'ตัวเทียน', from: bodyTop, to: bodyBottom },
+    { label: 'ไส้ล่าง', from: bodyBottom, to: lo },
+  ].filter((r) => r.from - r.to > 0.005);
+  const regionYs = spreadLabels(regions.map((r) => (Y(r.from) + Y(r.to)) / 2), 14, 12, 292);
 
   return (
-    <div className="grid gap-5 md:grid-cols-[240px_1fr]">
-      <svg viewBox="0 0 240 300" className="mx-auto w-full max-w-[240px]" role="img" aria-label={cls.name}>
+    <div className="grid gap-5 md:grid-cols-[290px_1fr]">
+      <svg viewBox="0 0 290 300" className="mx-auto w-full max-w-[290px]" role="img" aria-label={cls.name}>
         <line x1={110} x2={110} y1={Y(hi)} y2={Y(lo)} stroke={color} strokeWidth={3} />
-        <rect x={80} y={Y(Math.max(o, c))} width={60} height={Math.max(Math.abs(Y(o) - Y(c)), 2)} fill={color} rx={3} />
-        {[
-          { v: hi, t: `High ${fmtNum(hi)}` },
-          { v: lo, t: `Low ${fmtNum(lo)}` },
-          { v: o, t: `Open ${fmtNum(o)}` },
-          { v: c, t: `Close ${fmtNum(c)}` },
-        ].map((m) => (
-          <g key={m.t}>
-            <line x1={145} x2={160} y1={Y(m.v)} y2={Y(m.v)} stroke={palette.axis} />
-            <text x={164} y={Y(m.v) + 4} fontSize={11} fill={palette.axis}>
-              {m.t}
+        <rect x={80} y={Y(bodyTop)} width={60} height={Math.max(Y(bodyBottom) - Y(bodyTop), 2)} fill={color} rx={3} />
+        {priceLabels.map((p, k) => (
+          <g key={p.names.join()}>
+            <polyline
+              points={`144,${Y(p.v)} 151,${Y(p.v)} 159,${priceYs[k]} 162,${priceYs[k]}`}
+              fill="none"
+              stroke={palette.axis}
+            />
+            <text x={165} y={priceYs[k] + 4} fontSize={11} fill={palette.axis}>
+              {p.names.length > 2 ? p.names.map((n) => n[0]).join('/') : p.names.join(' / ')} {fmtNum(p.v)}
             </text>
           </g>
         ))}
-        <text x={20} y={(Y(hi) + Y(Math.max(o, c))) / 2 + 4} fontSize={10} fill={palette.axis}>
-          ไส้บน
-        </text>
-        <text x={20} y={(Y(Math.min(o, c)) + Y(lo)) / 2 + 4} fontSize={10} fill={palette.axis}>
-          ไส้ล่าง
-        </text>
-        <text x={20} y={(Y(o) + Y(c)) / 2 + 4} fontSize={10} fill={palette.axis}>
-          ตัวเทียน
-        </text>
+        {regions.map((r, k) => (
+          <g key={r.label} stroke={palette.muted}>
+            <path d={`M74,${Y(r.from) + 1} h-4 V${Y(r.to) - 1} h4`} fill="none" />
+            <line x1={70} x2={66} y1={(Y(r.from) + Y(r.to)) / 2} y2={regionYs[k]} />
+            <text x={63} y={regionYs[k] + 4} fontSize={10} fill={palette.axis} stroke="none" textAnchor="end">
+              {r.label}
+            </text>
+          </g>
+        ))}
       </svg>
       <div className="space-y-3">
         <div className="flex flex-wrap gap-2">
