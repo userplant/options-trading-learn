@@ -1,0 +1,65 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: "IBM Plex Sans Thai", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  @apply bg-slate-50 text-slate-800 antialiased dark:bg-slate-950 dark:text-slate-200;
+}
+
+/* เนื้อหาบทเรียน */
+.prose-lesson {
+  @apply leading-relaxed text-[15px] sm:text-base;
+}
+.prose-lesson h2 {
+  @apply mt-10 mb-3 text-xl font-semibold text-slate-900 dark:text-white;
+}
+.prose-lesson h3 {
+  @apply mt-6 mb-2 text-lg font-semibold text-slate-900 dark:text-white;
+}
+.prose-lesson p {
+  @apply my-3;
+}
+.prose-lesson ul {
+  @apply my-3 list-disc space-y-1 pl-6;
+}
+.prose-lesson ol {
+  @apply my-3 list-decimal space-y-1 pl-6;
+}
+.prose-lesson strong {
+  @apply font-semibold text-slate-900 dark:text-white;
+}
+.prose-lesson table {
+  @apply my-4 w-full border-collapse text-sm;
+}
+.prose-lesson th {
+  @apply border-b border-slate-300 px-3 py-2 text-left font-semibold dark:border-slate-700;
+}
+.prose-lesson td {
+  @apply border-b border-slate-200 px-3 py-2 align-top dark:border-slate-800;
+}
+.prose-lesson code {
+  @apply rounded bg-slate-200/70 px-1.5 py-0.5 font-mono text-[0.85em] dark:bg-slate-800;
+}
+
+input[type="range"] {
+  @apply h-2 w-full cursor-pointer appearance-none rounded-full bg-slate-200 accent-teal-600 dark:bg-slate-700;
+}
+input[type="range"]::-webkit-slider-thumb {
+  @apply h-4 w-4 appearance-none rounded-full bg-teal-600 shadow ring-2 ring-white dark:ring-slate-900;
+}
+input[type="range"]::-moz-range-thumb {
+  @apply h-4 w-4 rounded-full border-0 bg-teal-600 shadow;
+}
+
+.num {
+  font-variant-numeric: tabular-nums;
+}
