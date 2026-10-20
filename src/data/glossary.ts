@@ -2,7 +2,7 @@ export interface GlossaryEntry {
   term: string;
   thai: string;
   definition: string;
-  category: 'ตลาด' | 'คำสั่ง' | 'Options' | 'Greeks' | 'ความเสี่ยง';
+  category: 'ตลาด' | 'คำสั่ง' | 'Options' | 'Greeks' | 'ความเสี่ยง' | 'วิเคราะห์' | 'กลยุทธ์' | 'จิตวิทยา';
 }
 
 export const GLOSSARY: Record<string, GlossaryEntry> = {
@@ -55,4 +55,30 @@ export const GLOSSARY: Record<string, GlossaryEntry> = {
   expectancy: { term: 'Expectancy', thai: 'ค่าคาดหวัง', category: 'ความเสี่ยง', definition: 'กำไร/ขาดทุนเฉลี่ยต่อไม้ในระยะยาว = (Win% × กำไรเฉลี่ย) − (Loss% × ขาดทุนเฉลี่ย)' },
   drawdown: { term: 'Drawdown', thai: 'การย่อตัวของพอร์ต', category: 'ความเสี่ยง', definition: 'เปอร์เซ็นต์ที่พอร์ตลดลงจากจุดสูงสุดเดิม Max Drawdown คือการย่อตัวที่ลึกที่สุด' },
   'win-rate': { term: 'Win Rate', thai: 'อัตราชนะ', category: 'ความเสี่ยง', definition: 'สัดส่วนของไม้ที่ได้กำไรต่อจำนวนไม้ทั้งหมด' },
+  timeframe: { term: 'Timeframe', thai: 'กรอบเวลา', category: 'วิเคราะห์', definition: 'ช่วงเวลาที่แท่งเทียน 1 แท่งแทน เช่น 15 นาที, 1 ชั่วโมง, 1 วัน' },
+  pdt: { term: 'Pattern Day Trader (PDT)', thai: 'ผู้เทรดรายวันตามกฎ', category: 'ตลาด', definition: 'กฎ FINRA: บัญชี margin ที่ day trade 4 ครั้งขึ้นไปใน 5 วันทำการ ต้องมีเงินอย่างน้อย $25,000 (กฎอยู่ระหว่างการปรับปรุง ควรตรวจสอบกับโบรกเกอร์)' },
+  candlestick: { term: 'Candlestick', thai: 'แท่งเทียน', category: 'วิเคราะห์', definition: 'กราฟที่แสดงราคาเปิด สูงสุด ต่ำสุด และปิด (OHLC) ของแต่ละช่วงเวลา' },
+  support: { term: 'Support', thai: 'แนวรับ', category: 'วิเคราะห์', definition: 'ระดับราคาที่มักมีแรงซื้อเข้ามาหยุดการลง' },
+  resistance: { term: 'Resistance', thai: 'แนวต้าน', category: 'วิเคราะห์', definition: 'ระดับราคาที่มักมีแรงขายออกมาหยุดการขึ้น' },
+  'higher-high': { term: 'Higher High / Higher Low', thai: 'ยอดสูงขึ้น / ฐานสูงขึ้น', category: 'วิเคราะห์', definition: 'โครงสร้างขาขึ้น: แต่ละยอดและแต่ละฐานสูงกว่าครั้งก่อน (ขาลงคือ Lower High / Lower Low)' },
+  sma: { term: 'SMA', thai: 'ค่าเฉลี่ยเคลื่อนที่อย่างง่าย', category: 'วิเคราะห์', definition: 'Simple Moving Average ค่าเฉลี่ยราคาปิด N แท่งล่าสุด ให้น้ำหนักทุกแท่งเท่ากัน' },
+  ema: { term: 'EMA', thai: 'ค่าเฉลี่ยเคลื่อนที่แบบเอ็กซ์โพเนนเชียล', category: 'วิเคราะห์', definition: 'Exponential Moving Average ให้น้ำหนักราคาล่าสุดมากกว่า จึงตอบสนองเร็วกว่า SMA' },
+  rsi: { term: 'RSI', thai: 'ดัชนีกำลังสัมพัทธ์', category: 'วิเคราะห์', definition: 'Relative Strength Index วัดโมเมนตัม 0–100 เกิน 70 มักเรียก Overbought ต่ำกว่า 30 เรียก Oversold' },
+  macd: { term: 'MACD', thai: 'แมคดี', category: 'วิเคราะห์', definition: 'ส่วนต่าง EMA 12 กับ EMA 26 เทียบกับเส้น Signal (EMA 9 ของ MACD) ใช้ดูโมเมนตัมและการเปลี่ยนเทรนด์' },
+  bollinger: { term: 'Bollinger Bands', thai: 'โบลินเจอร์แบนด์', category: 'วิเคราะห์', definition: 'SMA 20 ± 2 ส่วนเบี่ยงเบนมาตรฐาน แบนด์กว้างเมื่อผันผวนสูง แคบเมื่อผันผวนต่ำ' },
+  atr: { term: 'ATR', thai: 'ค่าเฉลี่ยช่วงราคาจริง', category: 'วิเคราะห์', definition: 'Average True Range วัดความผันผวนเป็นหน่วยราคา นิยมใช้กำหนดระยะ stop loss' },
+  pe: { term: 'P/E Ratio', thai: 'อัตราส่วนราคาต่อกำไร', category: 'วิเคราะห์', definition: 'ราคาหุ้น ÷ กำไรต่อหุ้น บอกว่าตลาดยอมจ่ายกี่เท่าของกำไร' },
+  eps: { term: 'EPS', thai: 'กำไรต่อหุ้น', category: 'วิเคราะห์', definition: 'Earnings Per Share กำไรสุทธิหารด้วยจำนวนหุ้น' },
+  backtest: { term: 'Backtest', thai: 'การทดสอบย้อนหลัง', category: 'กลยุทธ์', definition: 'การจำลองกลยุทธ์กับข้อมูลราคาในอดีต เพื่อดูว่ากฎการเทรดนั้นเคยได้ผลอย่างไร' },
+  overfitting: { term: 'Overfitting', thai: 'การจูนเกินจริง', category: 'กลยุทธ์', definition: 'การปรับพารามิเตอร์ให้เข้ากับข้อมูลอดีตมากเกินไป จนจับ noise แทน pattern จริง ใช้กับข้อมูลใหม่ไม่ได้' },
+  'profit-factor': { term: 'Profit Factor', thai: 'อัตราส่วนกำไรต่อขาดทุน', category: 'กลยุทธ์', definition: 'กำไรรวม ÷ ขาดทุนรวม มากกว่า 1 แปลว่ากลยุทธ์ทำกำไร' },
+  'look-ahead': { term: 'Look-ahead Bias', thai: 'อคติจากข้อมูลอนาคต', category: 'กลยุทธ์', definition: 'ความผิดพลาดที่ backtest ใช้ข้อมูลที่ยังไม่มีในเวลานั้น เช่น ซื้อที่ราคาปิดของแท่งที่ใช้คำนวณสัญญาณ' },
+  survivorship: { term: 'Survivorship Bias', thai: 'อคติผู้รอดชีวิต', category: 'กลยุทธ์', definition: 'การทดสอบเฉพาะหุ้นที่ยังอยู่ทุกวันนี้ ลืมหุ้นที่ล้มละลายหรือถูกถอดออก ทำให้ผลดูดีเกินจริง' },
+  'mean-reversion': { term: 'Mean Reversion', thai: 'การกลับสู่ค่าเฉลี่ย', category: 'กลยุทธ์', definition: 'แนวคิดว่าราคาที่ห่างจากค่าเฉลี่ยมากเกินไปมักจะกลับมา เทรดสวนการเคลื่อนไหวระยะสั้น' },
+  'trend-following': { term: 'Trend Following', thai: 'การเทรดตามเทรนด์', category: 'กลยุทธ์', definition: 'ซื้อเมื่อเทรนด์ขาขึ้นเริ่มชัด ถือจนเทรนด์จบ ชนะไม่บ่อยแต่ไม้ที่ชนะมักกำไรใหญ่' },
+  fomo: { term: 'FOMO', thai: 'กลัวตกรถ', category: 'จิตวิทยา', definition: 'Fear Of Missing Out การรีบเข้าเทรดเพราะกลัวพลาดโอกาส โดยไม่มีแผน' },
+  'revenge-trading': { term: 'Revenge Trading', thai: 'เทรดเอาคืน', category: 'จิตวิทยา', definition: 'การเทรดเพื่อเอาเงินที่เสียไปคืนอย่างรวดเร็ว มักเพิ่มขนาดและละเลยกฎ' },
+  'loss-aversion': { term: 'Loss Aversion', thai: 'ความกลัวการขาดทุน', category: 'จิตวิทยา', definition: 'คนเจ็บปวดจากการขาดทุนมากกว่าดีใจจากกำไรขนาดเท่ากัน ทำให้ไม่ยอมตัดขาดทุน' },
+  'confirmation-bias': { term: 'Confirmation Bias', thai: 'อคติยืนยันความเชื่อ', category: 'จิตวิทยา', definition: 'การเลือกรับเฉพาะข้อมูลที่สนับสนุนความเชื่อเดิม' },
+  journal: { term: 'Trading Journal', thai: 'บันทึกการเทรด', category: 'จิตวิทยา', definition: 'บันทึกทุกการเทรด เหตุผล ผลลัพธ์ และอารมณ์ เพื่อหาจุดแข็งจุดอ่อนของตัวเอง' },
 };

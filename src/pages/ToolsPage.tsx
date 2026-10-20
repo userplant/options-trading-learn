@@ -1,11 +1,14 @@
 import type { ComponentType } from 'react';
 import { Link, Navigate, useParams, useSearchParams } from 'react-router-dom';
+import { CandleAnatomy, IndicatorLab, PatternGame, TrendStructure, ValuationCalc } from '../components/tools/AnalysisTools';
 import { GreeksVisualizer } from '../components/tools/GreeksVisualizer';
 import { LeverageCalc, OrderBookSim } from '../components/tools/MarketTools';
 import { TimeDecayChart } from '../components/tools/OptionPlaygrounds';
 import { PayoffBuilder } from '../components/tools/PayoffBuilder';
 import { DrawdownRecovery, ExpectancySimulator, PositionSizeCalculator } from '../components/tools/RiskTools';
+import { ScenarioGame, TradingJournal, TradingPlanBuilder } from '../components/tools/PsychTools';
 import { StrategyFinder } from '../components/tools/StrategyFinder';
+import { StyleQuiz, TimeframeZoom, TradingCostByStyle } from '../components/tools/StyleTools';
 import { Card } from '../components/ui';
 
 interface ToolDef {
@@ -31,6 +34,22 @@ export const TOOLS: ToolDef[] = [
     description: 'สร้างสถานะ options หลาย leg ดูกราฟกำไร/ขาดทุน จุดคุ้มทุน และ Greeks',
     lesson: '/learn/options/strategy-workshop',
     Component: PayoffBuilderRoute,
+  },
+  {
+    id: 'indicator-lab',
+    title: 'Indicator Lab',
+    icon: '📊',
+    description: 'กราฟแท่งเทียนพร้อม SMA, EMA, Bollinger, RSI, MACD ปรับค่าได้',
+    lesson: '/learn/analysis/indicators',
+    Component: () => <IndicatorLab initial={['sma', 'ema', 'rsi', 'macd']} />,
+  },
+  {
+    id: 'journal',
+    title: 'Trading Journal',
+    icon: '📓',
+    description: 'บันทึกการเทรด วิเคราะห์ expectancy แยกตาม setup และอารมณ์',
+    lesson: '/learn/psychology/journal-plan',
+    Component: TradingJournal,
   },
   {
     id: 'strategy-finder',
@@ -95,6 +114,78 @@ export const TOOLS: ToolDef[] = [
     description: 'ผลของ leverage ต่อกำไร/ขาดทุน และจุด Margin Call',
     lesson: '/learn/market-basics/long-short-leverage',
     Component: LeverageCalc,
+  },
+  {
+    id: 'pattern-game',
+    title: 'เกมทายรูปแบบกราฟ',
+    icon: '🎯',
+    description: 'ดูกราฟที่ซ่อนช่วงทะลุไว้ แล้วทายว่าเป็น chart pattern อะไร',
+    lesson: '/learn/analysis/chart-patterns',
+    Component: PatternGame,
+  },
+  {
+    id: 'trend-structure',
+    title: 'Trend Structure',
+    icon: '〽️',
+    description: 'หา Swing high/low, ป้าย HH/HL/LH/LL และแนวรับแนวต้านอัตโนมัติ',
+    lesson: '/learn/analysis/trend-support-resistance',
+    Component: TrendStructure,
+  },
+  {
+    id: 'candle-anatomy',
+    title: 'Candle Anatomy',
+    icon: '🕯️',
+    description: 'ปรับ OHLC แล้วดูว่าแท่งเทียนเป็นรูปแบบอะไร',
+    lesson: '/learn/analysis/candlesticks',
+    Component: CandleAnatomy,
+  },
+  {
+    id: 'valuation',
+    title: 'Valuation Calculator',
+    icon: '🏷️',
+    description: 'P/E, Earnings Yield, PEG และประมาณผลตอบแทนจากการเติบโตของกำไร',
+    lesson: '/learn/analysis/fundamentals',
+    Component: ValuationCalc,
+  },
+  {
+    id: 'timeframe',
+    title: 'Timeframe Zoom',
+    icon: '🔍',
+    description: 'ข้อมูลชุดเดียวกันในกรอบเวลา 15 นาที, 1 ชั่วโมง และ 1 วัน',
+    lesson: '/learn/trading-styles/styles-timeframes',
+    Component: TimeframeZoom,
+  },
+  {
+    id: 'trading-cost',
+    title: 'ต้นทุนตามสไตล์การเทรด',
+    icon: '💸',
+    description: 'ต้นทุน spread และค่าคอมต่อปีของ Scalping, Day, Swing, Position',
+    lesson: '/learn/trading-styles/costs-rules',
+    Component: TradingCostByStyle,
+  },
+  {
+    id: 'style-quiz',
+    title: 'สไตล์ไหนเหมาะกับคุณ',
+    icon: '🧩',
+    description: 'แบบทดสอบ 5 ข้อ หาสไตล์การเทรดที่เข้ากับเวลาและนิสัยของคุณ',
+    lesson: '/learn/trading-styles/find-your-style',
+    Component: StyleQuiz,
+  },
+  {
+    id: 'scenarios',
+    title: 'สถานการณ์จำลอง',
+    icon: '🧠',
+    description: 'ฝึกตัดสินใจใน 6 สถานการณ์ แล้วดูว่าอคติไหนกำลังทำงาน',
+    lesson: '/learn/psychology/scenarios',
+    Component: ScenarioGame,
+  },
+  {
+    id: 'trading-plan',
+    title: 'Trading Plan Builder',
+    icon: '📝',
+    description: 'เขียนแผนการเทรดของคุณ แล้วคัดลอกเป็น Markdown',
+    lesson: '/learn/psychology/journal-plan',
+    Component: TradingPlanBuilder,
   },
 ];
 

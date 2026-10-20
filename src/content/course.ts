@@ -1,5 +1,8 @@
 import { MODULE1_LESSONS } from './module1';
+import { MODULE2_LESSONS } from './module2';
+import { MODULE3_LESSONS } from './module3';
 import { MODULE6_LESSONS } from './module6';
+import { MODULE7_LESSONS } from './module7';
 import { OPTIONS_BASICS_LESSONS } from './optionsBasics';
 import { OPTIONS_STRATEGY_LESSONS } from './optionsStrategies';
 import type { Lesson, Module } from './types';
@@ -21,10 +24,9 @@ export const COURSE: Module[] = [
     title: 'รูปแบบการเทรดตามกรอบเวลา',
     description: 'Scalping, Day Trading, Swing, Position และการลงทุนระยะยาว',
     icon: '⏱️',
-    status: 'soon',
+    status: 'ready',
     phase: 2,
-    lessons: [],
-    upcoming: ['เปรียบเทียบแต่ละสไตล์: เวลา, ทุน, ค่าธรรมเนียม, ความเครียด', 'แบบทดสอบ "สไตล์ไหนเหมาะกับคุณ"', 'กฎ Pattern Day Trader (PDT) ของสหรัฐ'],
+    lessons: MODULE2_LESSONS,
   },
   {
     id: 'analysis',
@@ -32,10 +34,9 @@ export const COURSE: Module[] = [
     title: 'การวิเคราะห์',
     description: 'Technical, Indicators และ Fundamental เบื้องต้น',
     icon: '📊',
-    status: 'soon',
+    status: 'ready',
     phase: 2,
-    lessons: [],
-    upcoming: ['กราฟแท่งเทียน, แนวรับแนวต้าน, Chart Patterns', 'MA/EMA, RSI, MACD, Bollinger Bands แบบปรับค่าได้', 'เกมทายรูปแบบกราฟ', 'P/E, EPS, งบการเงิน และปฏิทินเศรษฐกิจ'],
+    lessons: MODULE3_LESSONS,
   },
   {
     id: 'trading-strategies',
@@ -74,10 +75,9 @@ export const COURSE: Module[] = [
     title: 'จิตวิทยาและวินัยการเทรด',
     description: 'FOMO, Revenge Trading, Trading Journal และ Trading Plan',
     icon: '🧠',
-    status: 'soon',
+    status: 'ready',
     phase: 2,
-    lessons: [],
-    upcoming: ['FOMO, Revenge Trading, Overtrading, Confirmation Bias', 'สถานการณ์จำลอง: เลือกการตัดสินใจแล้วดูผลลัพธ์', 'เทมเพลต Trading Journal และ Trading Plan'],
+    lessons: MODULE7_LESSONS,
   },
 ];
 

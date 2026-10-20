@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useProgress } from '../lib/progress';
+import { stableOrder } from '../lib/shuffle';
 import { Button, cx } from './ui';
 
 export interface QuizQuestion {
@@ -9,8 +10,17 @@ export interface QuizQuestion {
   explain: string;
 }
 
-export function Quiz({ lessonKey, questions }: { lessonKey: string; questions: QuizQuestion[] }) {
+export function Quiz({ lessonKey, questions: source }: { lessonKey: string; questions: QuizQuestion[] }) {
   const { quiz, saveQuiz } = useProgress();
+  // สลับลำดับตัวเลือกแบบคงที่ เพื่อไม่ให้คำตอบที่ถูกอยู่ตำแหน่งเดิมเสมอ
+  const questions = useMemo(
+    () =>
+      source.map((item, qi) => {
+        const order = stableOrder(item.choices.length, `${lessonKey}#${qi}`);
+        return { ...item, choices: order.map((i) => item.choices[i]), answer: order.indexOf(item.answer) };
+      }),
+    [source, lessonKey],
+  );
   const [picked, setPicked] = useState<(number | null)[]>(() => questions.map(() => null));
   const [submitted, setSubmitted] = useState(false);
 

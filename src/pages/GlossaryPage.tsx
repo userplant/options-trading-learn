@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { GLOSSARY, type GlossaryEntry } from '../data/glossary';
 import { Segmented } from '../components/ui';
 
-const CATEGORIES: (GlossaryEntry['category'] | 'ทั้งหมด')[] = ['ทั้งหมด', 'ตลาด', 'คำสั่ง', 'Options', 'Greeks', 'ความเสี่ยง'];
+const CATEGORIES: (GlossaryEntry['category'] | 'ทั้งหมด')[] = ['ทั้งหมด', 'ตลาด', 'คำสั่ง', 'วิเคราะห์', 'กลยุทธ์', 'Options', 'Greeks', 'ความเสี่ยง', 'จิตวิทยา'];
 
 export function GlossaryPage() {
   const [q, setQ] = useState('');
