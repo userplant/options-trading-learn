@@ -1,6 +1,7 @@
 import { MODULE1_LESSONS } from './module1';
 import { MODULE2_LESSONS } from './module2';
 import { MODULE3_LESSONS } from './module3';
+import { MODULE4_LESSONS } from './module4';
 import { MODULE6_LESSONS } from './module6';
 import { MODULE7_LESSONS } from './module7';
 import { OPTIONS_BASICS_LESSONS } from './optionsBasics';
@@ -42,12 +43,11 @@ export const COURSE: Module[] = [
     id: 'trading-strategies',
     num: 4,
     title: 'กลยุทธ์การเทรดทั่วไป',
-    description: 'Trend Following, Breakout, Mean Reversion, Momentum',
+    description: 'Trend Following, Breakout, Mean Reversion + Backtest Playground',
     icon: '🧭',
-    status: 'soon',
+    status: 'ready',
     phase: 3,
-    lessons: [],
-    upcoming: ['Trend Following, Breakout, Pullback, Mean Reversion, Momentum, Range', 'Backtest Playground: ปรับพารามิเตอร์แล้วดู equity curve, win rate, drawdown'],
+    lessons: MODULE4_LESSONS,
   },
   {
     id: 'options',

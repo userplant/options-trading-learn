@@ -1,6 +1,7 @@
 import type { ComponentType } from 'react';
 import { Link, Navigate, useParams, useSearchParams } from 'react-router-dom';
 import { CandleAnatomy, IndicatorLab, PatternGame, TrendStructure, ValuationCalc } from '../components/tools/AnalysisTools';
+import { BacktestPlayground, OverfitDemo } from '../components/tools/BacktestTools';
 import { GreeksVisualizer } from '../components/tools/GreeksVisualizer';
 import { LeverageCalc, OrderBookSim } from '../components/tools/MarketTools';
 import { TimeDecayChart } from '../components/tools/OptionPlaygrounds';
@@ -34,6 +35,14 @@ export const TOOLS: ToolDef[] = [
     description: 'สร้างสถานะ options หลาย leg ดูกราฟกำไร/ขาดทุน จุดคุ้มทุน และ Greeks',
     lesson: '/learn/options/strategy-workshop',
     Component: PayoffBuilderRoute,
+  },
+  {
+    id: 'backtest',
+    title: 'Backtest Playground',
+    icon: '🧪',
+    description: 'ทดสอบ 6 กลยุทธ์บนข้อมูลจำลอง ดู equity curve, drawdown และ Monte Carlo',
+    lesson: '/learn/trading-strategies/backtest-playground',
+    Component: BacktestPlayground,
   },
   {
     id: 'indicator-lab',
@@ -146,6 +155,14 @@ export const TOOLS: ToolDef[] = [
     description: 'P/E, Earnings Yield, PEG และประมาณผลตอบแทนจากการเติบโตของกำไร',
     lesson: '/learn/analysis/fundamentals',
     Component: ValuationCalc,
+  },
+  {
+    id: 'overfit',
+    title: 'Overfitting Demo',
+    icon: '🔥',
+    description: 'หาพารามิเตอร์ที่ดีที่สุดในอดีต แล้วดูว่ายังดีอยู่ไหมกับข้อมูลใหม่',
+    lesson: '/learn/trading-strategies/backtest-pitfalls',
+    Component: OverfitDemo,
   },
   {
     id: 'timeframe',

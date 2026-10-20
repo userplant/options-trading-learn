@@ -7,15 +7,15 @@
 
 ## เนื้อหา
 
-| โมดูล | สถานะ |
+| โมดูล | บทเรียน |
 |---|---|
-| 1. พื้นฐานตลาด — สินทรัพย์, Bid/Ask, ประเภทคำสั่ง, Leverage | ✅ Phase 1 |
-| 2. รูปแบบการเทรดตามกรอบเวลา | 🔜 Phase 2 |
-| 3. การวิเคราะห์ (Technical / Fundamental) | 🔜 Phase 2 |
-| 4. กลยุทธ์การเทรดทั่วไป + Backtest Playground | 🔜 Phase 3 |
-| 5. Options — Call/Put, IV, Greeks, Time Decay, กลยุทธ์ 16 แบบ | ✅ Phase 1 |
-| 6. การบริหารความเสี่ยง — Position Sizing, Expectancy, Drawdown | ✅ Phase 1 |
-| 7. จิตวิทยาและวินัยการเทรด | 🔜 Phase 2 |
+| 1. พื้นฐานตลาด — สินทรัพย์, Bid/Ask, ประเภทคำสั่ง, Leverage | 4 |
+| 2. รูปแบบการเทรด — Scalping ถึงลงทุนระยะยาว, ต้นทุน, กฎ PDT | 3 |
+| 3. การวิเคราะห์ — แท่งเทียน, เทรนด์/แนวรับแนวต้าน, Chart Patterns, Indicators, Fundamental | 5 |
+| 4. กลยุทธ์การเทรด — Trend, Breakout/Pullback, Mean Reversion, Backtest, Overfitting | 5 |
+| 5. Options — Call/Put, IV, Greeks, Time Decay, กลยุทธ์ 16 แบบ | 11 |
+| 6. การบริหารความเสี่ยง — Position Sizing, Expectancy, Drawdown | 4 |
+| 7. จิตวิทยา — อคติ, สถานการณ์จำลอง, Trading Journal, Trading Plan | 3 |
 
 ## เครื่องมือ Interactive
 
@@ -24,8 +24,15 @@
 - **Greeks Visualizer**, **Time Decay**, **ITM/ATM/OTM Explorer**
 - **Position Size Calculator**, **Expectancy Simulator**, **Drawdown & Recovery**
 - **Order Book Simulator**, **Leverage Calculator**, **Spread Cost Calculator**
+- **Backtest Playground** — 6 กลยุทธ์ (MA Crossover, Momentum, Donchian Breakout, Pullback, RSI/Bollinger Reversion) บนข้อมูลราคาจำลอง 5 สภาพตลาด พร้อม stop loss, position sizing, ต้นทุน และ Monte Carlo
+- **Overfitting Demo** — หาพารามิเตอร์ที่ดีที่สุดแบบ in-sample แล้วทดสอบ out-of-sample
+- **Indicator Lab** (SMA/EMA/Bollinger/RSI/MACD), **Trend Structure**, **Candle Anatomy**, **เกมทาย Chart Pattern**, **Valuation Calculator**
+- **Trading Journal** (บันทึก + วิเคราะห์ตาม setup/อารมณ์ + Export CSV), **Trading Plan Builder**, **สถานการณ์จำลองด้านจิตวิทยา**
+- **Timeframe Zoom**, **ต้นทุนตามสไตล์การเทรด**, **แบบทดสอบสไตล์การเทรด**
 
 ราคา option คำนวณด้วย Black-Scholes (European, ไม่มีปันผล) — สูตรอยู่ใน `src/lib/blackScholes.ts`
+ข้อมูลราคาสำหรับกราฟและ backtest เป็นข้อมูลจำลองแบบ seeded (`src/lib/marketData.ts`) ไม่ใช่ราคาจริง
+กราฟแท่งเทียนเป็น SVG ที่เขียนเอง (`src/components/charts/CandleChart.tsx`)
 
 ## พัฒนา
 
@@ -43,8 +50,8 @@ Stack: Vite + React + TypeScript + Tailwind CSS v4 + Recharts ทำงานฝ
 
 ```
 src/
-  lib/         สูตรคำนวณ (Black-Scholes, payoff, risk) + theme/progress
-  data/        กลยุทธ์ options สำเร็จรูป, อภิธานศัพท์
+  lib/         สูตรคำนวณ (Black-Scholes, payoff, risk, indicators, backtest, ข้อมูลจำลอง) + theme/progress
+  data/        กลยุทธ์ options สำเร็จรูป, chart patterns, อภิธานศัพท์
   content/     เนื้อหาบทเรียนแต่ละโมดูล + course.ts (สารบัญ)
   components/  UI, Quiz, Term (tooltip ศัพท์), tools/ (เครื่องมือ interactive)
   pages/       หน้า Home, Module, Lesson, Tools, Glossary
