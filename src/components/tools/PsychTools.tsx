@@ -1,7 +1,7 @@
-import { useMemo, useState } from 'react';
-import { stableOrder } from '../../lib/shuffle';
+import { useId, useMemo, useState } from 'react';
 import { CartesianGrid, Line, LineChart, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { fmtNum, fmtPct } from '../../lib/format';
+import { stableOrder } from '../../lib/shuffle';
 import { loadJSON, saveJSON } from '../../lib/storage';
 import { tooltipStyle, useTheme } from '../../lib/theme';
 import { Badge, Button, NumberField, Stat, cx } from '../ui';
@@ -190,6 +190,10 @@ export interface JournalEntry {
 
 const JOURNAL_KEY = 'trading-lab-journal-v1';
 
+const SETUP_PRESETS = ['Pullback', 'Breakout', 'Mean Reversion', 'Earnings', 'Options: Credit Spread'];
+/** ค่าพิเศษใน dropdown สำหรับเปลี่ยนไปพิมพ์ชื่อ setup ใหม่ */
+const NEW_SETUP = '__new__';
+
 const SAMPLE: JournalEntry[] = [
   { id: 's1', date: '2026-09-01', symbol: 'AAPL', setup: 'Pullback', r: 1.8, emotion: 'มั่นใจตามแผน', followedPlan: true, note: '' },
   { id: 's2', date: '2026-09-03', symbol: 'NVDA', setup: 'Breakout', r: -1, emotion: 'มั่นใจตามแผน', followedPlan: true, note: '' },
@@ -216,7 +220,13 @@ function groupStats(entries: JournalEntry[], key: (e: JournalEntry) => string) {
 export function TradingJournal() {
   const { palette } = useTheme();
   const [entries, setEntries] = useState<JournalEntry[]>(() => loadJSON(JOURNAL_KEY, [] as JournalEntry[]));
-  const [form, setForm] = useState({ symbol: '', setup: 'Pullback', r: 1, emotion: EMOTIONS[0] as JournalEntry['emotion'], followedPlan: true, note: '' });
+  const [form, setForm] = useState({ symbol: '', setup: SETUP_PRESETS[0], r: 1, emotion: EMOTIONS[0] as JournalEntry['emotion'], followedPlan: true, note: '' });
+  // โหมดพิมพ์ชื่อ setup ใหม่ (แทน dropdown) และค่าที่จะกลับไปเมื่อยกเลิก
+  const [customSetup, setCustomSetup] = useState(false);
+  const [prevSetup, setPrevSetup] = useState(SETUP_PRESETS[0]);
+  const setupId = useId();
+  // ตัวเลือก = setup สำเร็จรูป + setup ที่เคยบันทึกไว้
+  const setupOptions = useMemo(() => [...new Set([...SETUP_PRESETS, ...entries.map((e) => e.setup)])], [entries]);
 
   const persist = (next: JournalEntry[]) => {
     setEntries(next);
@@ -224,12 +234,14 @@ export function TradingJournal() {
   };
 
   const add = () => {
-    if (!form.symbol.trim()) return;
+    const setup = form.setup.trim();
+    if (!form.symbol.trim() || !setup) return;
     persist([
       ...entries,
-      { ...form, symbol: form.symbol.trim().toUpperCase(), id: `${Date.now()}`, date: new Date().toISOString().slice(0, 10) },
+      { ...form, setup, symbol: form.symbol.trim().toUpperCase(), id: `${Date.now()}`, date: new Date().toISOString().slice(0, 10) },
     ]);
-    setForm((f) => ({ ...f, symbol: '', note: '' }));
+    setForm((f) => ({ ...f, setup, symbol: '', note: '' }));
+    setCustomSetup(false);
   };
 
   const curve = useMemo(() => {
@@ -255,7 +267,8 @@ export function TradingJournal() {
   };
 
   // ความสูงคงที่ ให้ select กับ input สูงเท่ากับ NumberField (38px)
-  const input = 'h-[38px] w-full rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-sm dark:border-slate-700 dark:bg-slate-950';
+  const input =
+    'h-[38px] w-full rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-sm outline-none focus:ring-2 focus:ring-teal-500 dark:border-slate-700 dark:bg-slate-950';
 
   return (
     <div className="space-y-4">
@@ -264,15 +277,57 @@ export function TradingJournal() {
           <span className="mb-1 block flex-1 text-slate-600 dark:text-slate-400">Symbol</span>
           <input className={input} value={form.symbol} placeholder="AAPL" onChange={(e) => setForm({ ...form, symbol: e.target.value })} />
         </label>
-        <label className="flex h-full flex-col text-sm">
-          <span className="mb-1 block flex-1 text-slate-600 dark:text-slate-400">Setup</span>
-          <input className={input} value={form.setup} list="setups" onChange={(e) => setForm({ ...form, setup: e.target.value })} />
-          <datalist id="setups">
-            {['Pullback', 'Breakout', 'Mean Reversion', 'Earnings', 'Options: Credit Spread'].map((s) => (
-              <option key={s} value={s} />
-            ))}
-          </datalist>
-        </label>
+        <div className="flex h-full flex-col text-sm">
+          <label htmlFor={setupId} className="mb-1 block flex-1 text-slate-600 dark:text-slate-400">
+            Setup
+          </label>
+          {customSetup ? (
+            <div className="relative">
+              <input
+                id={setupId}
+                autoFocus
+                className={cx(input, 'pr-8')}
+                value={form.setup}
+                placeholder="ชื่อ setup ใหม่"
+                onChange={(e) => setForm({ ...form, setup: e.target.value })}
+              />
+              <button
+                type="button"
+                aria-label="กลับไปเลือกจากรายการ"
+                title="กลับไปเลือกจากรายการ"
+                onClick={() => {
+                  setCustomSetup(false);
+                  setForm((f) => ({ ...f, setup: prevSetup }));
+                }}
+                className="absolute top-1/2 right-2 -translate-y-1/2 rounded p-0.5 text-slate-400 hover:text-slate-700 dark:hover:text-slate-200"
+              >
+                ✕
+              </button>
+            </div>
+          ) : (
+            <select
+              id={setupId}
+              className={input}
+              value={form.setup}
+              onChange={(e) => {
+                if (e.target.value === NEW_SETUP) {
+                  setPrevSetup(form.setup);
+                  setCustomSetup(true);
+                  setForm({ ...form, setup: '' });
+                } else {
+                  setForm({ ...form, setup: e.target.value });
+                }
+              }}
+            >
+              {setupOptions.map((s) => (
+                <option key={s} value={s}>
+                  {s}
+                </option>
+              ))}
+              <option value={NEW_SETUP}>+ เพิ่ม setup ใหม่…</option>
+            </select>
+          )}
+        </div>
         <NumberField label="ผลลัพธ์ (R)" value={form.r} step={0.1} onChange={(r) => setForm({ ...form, r })} />
         <label className="flex h-full flex-col text-sm">
           <span className="mb-1 block flex-1 text-slate-600 dark:text-slate-400">อารมณ์ตอนเข้า</span>
