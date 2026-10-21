@@ -1,4 +1,5 @@
 import { useId, useMemo, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { CartesianGrid, Line, LineChart, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { fmtNum, fmtPct } from '../../lib/format';
 import { stableOrder } from '../../lib/shuffle';
@@ -523,10 +524,47 @@ export function TradingPlanBuilder() {
       </div>
       <div className="flex flex-wrap gap-2">
         <Button onClick={copy}>{copied ? '✓ คัดลอกแล้ว' : '📋 คัดลอกเป็น Markdown'}</Button>
-        <Button variant="ghost" onClick={() => window.print()}>
-          🖨 พิมพ์
+        <Button variant="ghost" onClick={printPlan}>
+          🖨 พิมพ์แผน / บันทึก PDF
         </Button>
       </div>
+      {createPortal(<PlanPrintSheet plan={plan} />, document.body)}
+    </div>
+  );
+}
+
+/** พิมพ์เฉพาะแผน: CSS ใน index.css ซ่อนทั้งหน้าและแสดงแผ่น .plan-print เมื่อ body มีคลาส printing-plan */
+function printPlan() {
+  const body = document.body;
+  const done = () => {
+    body.classList.remove('printing-plan');
+    window.removeEventListener('afterprint', done);
+  };
+  body.classList.add('printing-plan');
+  window.addEventListener('afterprint', done);
+  window.print();
+}
+
+function PlanPrintSheet({ plan }: { plan: Record<string, string> }) {
+  const date = new Date().toLocaleDateString('th-TH', { year: 'numeric', month: 'long', day: 'numeric' });
+  return (
+    <div className="plan-print" aria-hidden>
+      <h1>Trading Plan</h1>
+      <p className="plan-print-meta">พิมพ์เมื่อ {date}</p>
+      {PLAN_FIELDS.map((f) => {
+        const value = plan[f.key]?.trim();
+        return (
+          <section key={f.key}>
+            <h2>{f.label}</h2>
+            {value ? (
+              <p>{value}</p>
+            ) : (
+              [0, 1, 2].map((i) => <div key={i} className="plan-print-line" />)
+            )}
+          </section>
+        );
+      })}
+      <p className="plan-print-meta plan-print-footer">ทบทวนแผนนี้ทุกสิ้นเดือน · Trading Lab</p>
     </div>
   );
 }

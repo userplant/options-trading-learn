@@ -63,3 +63,56 @@ input[type="range"]::-moz-range-thumb {
 .num {
   font-variant-numeric: tabular-nums;
 }
+
+/* แผ่นพิมพ์ Trading Plan: ซ่อนบนหน้าจอ, ตอนพิมพ์แผนจะแสดงแผ่นนี้แทนทั้งหน้า */
+.plan-print {
+  display: none;
+}
+@media print {
+  body.printing-plan {
+    background: #fff;
+    color: #111;
+  }
+  body.printing-plan #root {
+    display: none !important;
+  }
+  body.printing-plan .plan-print {
+    display: block;
+    font-size: 11pt;
+    line-height: 1.5;
+    color: #111;
+  }
+  .plan-print h1 {
+    margin: 0;
+    font-size: 18pt;
+    font-weight: 700;
+  }
+  .plan-print h2 {
+    margin: 10pt 0 2pt;
+    font-size: 12pt;
+    font-weight: 600;
+  }
+  .plan-print section {
+    break-inside: avoid;
+  }
+  .plan-print p {
+    margin: 0;
+    white-space: pre-wrap;
+  }
+  .plan-print-meta {
+    color: #555;
+    font-size: 9pt;
+  }
+  .plan-print .plan-print-footer {
+    margin-top: 14pt;
+  }
+  /* หัวข้อที่ยังไม่กรอก: เส้นว่างไว้เขียนด้วยมือ */
+  .plan-print-line {
+    height: 1.6em;
+    border-bottom: 1px solid #bbb;
+  }
+  @page {
+    size: A4;
+    margin: 16mm;
+  }
+}
