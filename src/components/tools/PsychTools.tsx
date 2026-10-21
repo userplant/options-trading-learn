@@ -254,17 +254,18 @@ export function TradingJournal() {
     URL.revokeObjectURL(url);
   };
 
-  const input = 'w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm dark:border-slate-700 dark:bg-slate-950';
+  // ความสูงคงที่ ให้ select กับ input สูงเท่ากับ NumberField (38px)
+  const input = 'h-[38px] w-full rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-sm dark:border-slate-700 dark:bg-slate-950';
 
   return (
     <div className="space-y-4">
       <div className="grid gap-3 rounded-xl bg-white p-3 sm:grid-cols-2 lg:grid-cols-6 dark:bg-slate-950/60">
-        <label className="text-sm">
-          <span className="mb-1 block text-slate-600 dark:text-slate-400">Symbol</span>
+        <label className="flex h-full flex-col text-sm">
+          <span className="mb-1 block flex-1 text-slate-600 dark:text-slate-400">Symbol</span>
           <input className={input} value={form.symbol} placeholder="AAPL" onChange={(e) => setForm({ ...form, symbol: e.target.value })} />
         </label>
-        <label className="text-sm">
-          <span className="mb-1 block text-slate-600 dark:text-slate-400">Setup</span>
+        <label className="flex h-full flex-col text-sm">
+          <span className="mb-1 block flex-1 text-slate-600 dark:text-slate-400">Setup</span>
           <input className={input} value={form.setup} list="setups" onChange={(e) => setForm({ ...form, setup: e.target.value })} />
           <datalist id="setups">
             {['Pullback', 'Breakout', 'Mean Reversion', 'Earnings', 'Options: Credit Spread'].map((s) => (
@@ -273,8 +274,8 @@ export function TradingJournal() {
           </datalist>
         </label>
         <NumberField label="ผลลัพธ์ (R)" value={form.r} step={0.1} onChange={(r) => setForm({ ...form, r })} />
-        <label className="text-sm">
-          <span className="mb-1 block text-slate-600 dark:text-slate-400">อารมณ์ตอนเข้า</span>
+        <label className="flex h-full flex-col text-sm">
+          <span className="mb-1 block flex-1 text-slate-600 dark:text-slate-400">อารมณ์ตอนเข้า</span>
           <select className={input} value={form.emotion} onChange={(e) => setForm({ ...form, emotion: e.target.value as JournalEntry['emotion'] })}>
             {EMOTIONS.map((e) => (
               <option key={e}>{e}</option>

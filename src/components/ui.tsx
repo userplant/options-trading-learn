@@ -122,8 +122,9 @@ export function NumberField({
   suffix?: string;
 }) {
   return (
-    <label className="block text-sm">
-      <span className="mb-1 block text-slate-600 dark:text-slate-400">{label}</span>
+    // label ยืดเต็มความสูงแถว ช่องกรอกจึงชิดล่างเสมอ แม้ label ข้างๆ จะขึ้นบรรทัดใหม่
+    <label className="flex h-full flex-col text-sm">
+      <span className="mb-1 block flex-1 text-slate-600 dark:text-slate-400">{label}</span>
       <div className="flex items-center rounded-lg border border-slate-300 bg-white focus-within:ring-2 focus-within:ring-teal-500 dark:border-slate-700 dark:bg-slate-950">
         {prefix && <span className="pl-3 text-slate-500">{prefix}</span>}
         <input
